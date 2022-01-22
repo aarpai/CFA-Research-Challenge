@@ -8,7 +8,8 @@ Created on Thu Dec 16 18:15:33 2021
 import financialmodelingprep_data_import as statements
 import alphavantage_data_import as alphav
 import financialEvaluation as val
-import relative_valuation as rv
+# import relativevaluation as rv
+
 import pandas as pd
 import os
 import numpy as np
@@ -180,8 +181,8 @@ if __name__ == "__main__":
     avg_yearly_buybacks = change_in_equity['OtherSharesRepurchased/Forfeited'].mean()
     cash_flows_to_shareholders = (change_in_equity['Dividends'][0] + avg_yearly_buybacks) / income_statement.iloc[0]['weightedAverageShsOut']
     unstable_growth_rate = (excess_returns_table['ROE'] * (1 - accounting_ratios['Modified Payout Ratio'].mean()))[0]
-    intrinsic_value = val.gordon_growth(cash_flows_to_shareholders, cost_of_equity, sustainable_growth_rate, unstable_growth_rate, 3, val.capm(rf, 1.21, mpremium))
-    
+    intrinsic_value = val.gordon_growth(cash_flows_to_shareholders, cost_of_equity, sustainable_growth_rate, unstable_growth_rate, 3)
+    # (current_dividend, cost_of_capital, stable_growth_rate, unstable_growth_rate=0, unstable_growth_period=0)
     weighted_value += valutation_weights[1] * intrinsic_value
     
     
@@ -194,9 +195,9 @@ if __name__ == "__main__":
     ## Question: Should I incorporate more companies in the list of consider only the peers
     competitors = ['HLI', 'JEF', 'LAZ', 'MC', 'PIPR', 'SF', 'EVR', 'GHL', 'JPM', 'GS', 'BAC', 'MS', 'C', 'UBS', 'CS', 'DB', 'HSBC', 'BCS', 'RY', 'WFC', 'NMR', 'BMO', 'MUFG'] # ! remove PJT P/B > 12x        
     
-    pb_table, corr_matrix, predicted_pb, predicted_value = rv.priceToBookComparison(api_keys, ticker, accounting_ratios['ROE'][0], balance_sheet['totalStockholdersEquity'][0], income_statement.iloc[0]['weightedAverageShsOut'], competitors)
+    # pb_table, corr_matrix, predicted_pb, predicted_value = rv.priceToBookComparison(api_keys, ticker, accounting_ratios['ROE'][0], balance_sheet['totalStockholdersEquity'][0], income_statement.iloc[0]['weightedAverageShsOut'], competitors)
     
-    weighted_value += valutation_weights[2] * predicted_value
+    # weighted_value += valutation_weights[2] * predicted_value
     
     
     
